@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Avaliacao;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AvaliacaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $avaliacoes = Avaliacao::with(['cliente', 'massagista'])->get();
+        return view('avaliacoes.index', compact('avaliacoes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $clientes = User::where('tipo', 'cliente')->get();
+        $massagistas = User::where('tipo', 'massagista')->get();
+        return view('avaliacoes.create', compact('clientes', 'massagistas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'cliente_id' => 'required|exists:users,id',
+            'massagista_id' => 'required|exists:users,id',
+            'comentario' => 'nullable|string',
+            'nota' => 'required|integer|min:1|max:5',
+            'data' => 'required|date',
+        ]);
+
+        Avaliacao::create($validated);
+        return redirect()->route('avaliacoes.index')->with('success', 'Avaliação criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Avaliacao $avaliacao)
     {
-        //
+        return view('avaliacoes.show', compact('avaliacao'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Avaliacao $avaliacao)
     {
-        //
+        $clientes = User::where('tipo', 'cliente')->get();
+        $massagistas = User::where('tipo', 'massagista')->get();
+        return view('avaliacoes.edit', compact('avaliacao', 'clientes', 'massagistas'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Avaliacao $avaliacao)
     {
-        //
+        $validated = $request->validate([
+            'cliente_id' => 'required|exists:users,id',
+            'massagista_id' => 'required|exists:users,id',
+            'comentario' => 'nullable|string',
+            'nota' => 'required|integer|min:1|max:5',
+            'data' => 'required|date',
+        ]);
+
+        $avaliacao->update($validated);
+        return redirect()->route('avaliacoes.index')->with('success', 'Avaliação atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Avaliacao $avaliacao)
     {
-        //
+        $avaliacao->delete();
+        return redirect()->route('avaliacoes.index')->with('success', 'Avaliação removida com sucesso!');
     }
 }

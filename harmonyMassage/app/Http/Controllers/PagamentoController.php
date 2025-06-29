@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Pagamento;
+use App\Models\Agendamento;
 use Illuminate\Http\Request;
 
 class PagamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $pagamentos = Pagamento::with('agendamento')->get();
+        return view('pagamentos.index', compact('pagamentos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $agendamentos = Agendamento::all();
+        return view('pagamentos.create', compact('agendamentos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'agendamento_id' => 'required|exists:agendamentos,id',
+            'metodo' => 'required|string',
+            'valor' => 'required|numeric',
+            'status' => 'required|string',
+            'comprovante' => 'nullable|string',
+            'data_pagamento' => 'required|date',
+        ]);
+
+        Pagamento::create($validated);
+        return redirect()->route('pagamentos.index')->with('success', 'Pagamento registrado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Pagamento $pagamento)
     {
-        //
+        return view('pagamentos.show', compact('pagamento'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Pagamento $pagamento)
     {
-        //
+        $agendamentos = Agendamento::all();
+        return view('pagamentos.edit', compact('pagamento', 'agendamentos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Pagamento $pagamento)
     {
-        //
+        $validated = $request->validate([
+            'agendamento_id' => 'required|exists:agendamentos,id',
+            'metodo' => 'required|string',
+            'valor' => 'required|numeric',
+            'status' => 'required|string',
+            'comprovante' => 'nullable|string',
+            'data_pagamento' => 'required|date',
+        ]);
+
+        $pagamento->update($validated);
+        return redirect()->route('pagamentos.index')->with('success', 'Pagamento atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Pagamento $pagamento)
     {
-        //
+        $pagamento->delete();
+        return redirect()->route('pagamentos.index')->with('success', 'Pagamento removido com sucesso!');
     }
 }

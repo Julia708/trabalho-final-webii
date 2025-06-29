@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Comissao;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ComissaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $comissoes = Comissao::with(['massagista', 'gerente'])->get();
+        return view('comissoes.index', compact('comissoes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $massagistas = User::where('tipo', 'massagista')->get();
+        $gerentes = User::where('tipo', 'gerente')->get();
+        return view('comissoes.create', compact('massagistas', 'gerentes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'massagista_id' => 'required|exists:users,id',
+            'gerente_id' => 'required|exists:users,id',
+            'percentual' => 'required|numeric|min:0|max:100',
+            'valor_calculado' => 'required|numeric',
+            'referente_mes' => 'required|string',
+        ]);
+
+        Comissao::create($validated);
+        return redirect()->route('comissoes.index')->with('success', 'Comissão criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Comissao $comissao)
     {
-        //
+        return view('comissoes.show', compact('comissao'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Comissao $comissao)
     {
-        //
+        $massagistas = User::where('tipo', 'massagista')->get();
+        $gerentes = User::where('tipo', 'gerente')->get();
+        return view('comissoes.edit', compact('comissao', 'massagistas', 'gerentes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Comissao $comissao)
     {
-        //
+        $validated = $request->validate([
+            'massagista_id' => 'required|exists:users,id',
+            'gerente_id' => 'required|exists:users,id',
+            'percentual' => 'required|numeric|min:0|max:100',
+            'valor_calculado' => 'required|numeric',
+            'referente_mes' => 'required|string',
+        ]);
+
+        $comissao->update($validated);
+        return redirect()->route('comissoes.index')->with('success', 'Comissão atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Comissao $comissao)
     {
-        //
+        $comissao->delete();
+        return redirect()->route('comissoes.index')->with('success', 'Comissão removida com sucesso!');
     }
 }

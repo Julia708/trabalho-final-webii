@@ -2,64 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Agendamento;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AgendamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $agendamentos = Agendamento::with(['cliente', 'massagista', 'pagamento'])->get();
+        return view('agendamentos.index', compact('agendamentos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $clientes = User::where('tipo', 'cliente')->get();
+        $massagistas = User::where('tipo', 'massagista')->get();
+        return view('agendamentos.create', compact('clientes', 'massagistas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'cliente_id' => 'required|exists:users,id',
+            'massagista_id' => 'required|exists:users,id',
+            'data' => 'required|date',
+            'horario' => 'required',
+            'status' => 'required|string',
+            'observacao' => 'nullable|string',
+        ]);
+
+        Agendamento::create($validated);
+
+        return redirect()->route('agendamentos.index')->with('success', 'Agendamento criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Agendamento $agendamento)
     {
-        //
+        return view('agendamentos.show', compact('agendamento'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Agendamento $agendamento)
     {
-        //
+        $clientes = User::where('tipo', 'cliente')->get();
+        $massagistas = User::where('tipo', 'massagista')->get();
+        return view('agendamentos.edit', compact('agendamento', 'clientes', 'massagistas'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Agendamento $agendamento)
     {
-        //
+        $validated = $request->validate([
+            'cliente_id' => 'required|exists:users,id',
+            'massagista_id' => 'required|exists:users,id',
+            'data' => 'required|date',
+            'horario' => 'required',
+            'status' => 'required|string',
+            'observacao' => 'nullable|string',
+        ]);
+
+        $agendamento->update($validated);
+
+        return redirect()->route('agendamentos.index')->with('success', 'Agendamento atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Agendamento $agendamento)
     {
-        //
+        $agendamento->delete();
+
+        return redirect()->route('agendamentos.index')->with('success', 'Agendamento removido com sucesso!');
     }
 }

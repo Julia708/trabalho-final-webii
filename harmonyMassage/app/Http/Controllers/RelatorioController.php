@@ -2,64 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Relatorio;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RelatorioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $relatorios = Relatorio::with('massagista')->get();
+        return view('relatorios.index', compact('relatorios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $massagistas = User::where('tipo', 'massagista')->get();
+        return view('relatorios.create', compact('massagistas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'massagista_id' => 'required|exists:users,id',
+            'descricao' => 'required|string',
+            'data_inicio' => 'required|date',
+            'data_fim' => 'required|date',
+            'arquivo_pdf' => 'nullable|string',
+        ]);
+
+        Relatorio::create($validated);
+        return redirect()->route('relatorios.index')->with('success', 'Relatório criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Relatorio $relatorio)
     {
-        //
+        return view('relatorios.show', compact('relatorio'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Relatorio $relatorio)
     {
-        //
+        $massagistas = User::where('tipo', 'massagista')->get();
+        return view('relatorios.edit', compact('relatorio', 'massagistas'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Relatorio $relatorio)
     {
-        //
+        $validated = $request->validate([
+            'massagista_id' => 'required|exists:users,id',
+            'descricao' => 'required|string',
+            'data_inicio' => 'required|date',
+            'data_fim' => 'required|date',
+            'arquivo_pdf' => 'nullable|string',
+        ]);
+
+        $relatorio->update($validated);
+        return redirect()->route('relatorios.index')->with('success', 'Relatório atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Relatorio $relatorio)
     {
-        //
+        $relatorio->delete();
+        return redirect()->route('relatorios.index')->with('success', 'Relatório removido com sucesso!');
     }
 }
