@@ -4,7 +4,7 @@
 
     <a href="{{ route('agendamentos.create') }}" class="btn btn-primary mb-3">Novo Agendamento</a>
 
-    
+    <table>
         <thead>
             <tr>
                 <th>Massagista</th>
