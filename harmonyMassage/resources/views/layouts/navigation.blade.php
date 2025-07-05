@@ -19,20 +19,20 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link >
+                    <x-nav-link :href="route('agendamentos.index')" :active="request()->routeIs('agendamentos.index')">
                         {{ __('Agendamentos') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link >
-                        {{ __('Dashboard') }}
+                        {{ __('') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link >
-                        {{ __('Dashboard') }}
+                        {{ __('') }}
                     </x-nav-link>
                 </div>
                 

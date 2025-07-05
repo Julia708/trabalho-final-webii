@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Relatorio;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Agendamento;
 class RelatorioController extends Controller
 {
     public function index()
@@ -64,4 +65,17 @@ class RelatorioController extends Controller
         $relatorio->delete();
         return redirect()->route('relatorios.index')->with('success', 'Relatório removido com sucesso!');
     }
+
+    public function gerarPDF(Request $request)
+    {
+    $agendamentos = Agendamento::with(['cliente', 'massagista'])
+        ->when($request->data_inicial, fn($q) => $q->whereDate('data', '>=', $request->data_inicial))
+        ->when($request->data_final, fn($q) => $q->whereDate('data', '<=', $request->data_final))
+        ->get();
+
+    $pdf = Pdf::loadView('gerente.relatorios.pdf', compact('agendamentos'));
+
+    return $pdf->download('relatorio-agendamentos.pdf');
+    }
+
 }

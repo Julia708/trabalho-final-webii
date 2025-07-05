@@ -1,32 +1,38 @@
-<x-app-layout>
-    
-    <h2>Meus Agendamentos</h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: sans-serif; font-size: 12px; }
+        h1 { text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #000; padding: 6px; text-align: left; }
+    </style>
+</head>
+<body>
+    <h1>Relatório de Agendamentos</h1>
 
-    <a href="{{ route('agendamentos.create') }}" class="btn btn-primary mb-3">Novo Agendamento</a>
-
-    
+    <table>
         <thead>
             <tr>
+                <th>Cliente</th>
                 <th>Massagista</th>
                 <th>Data</th>
                 <th>Horário</th>
                 <th>Status</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             @foreach($agendamentos as $agendamento)
                 <tr>
+                    <td>{{ $agendamento->cliente->name }}</td>
                     <td>{{ $agendamento->massagista->name }}</td>
                     <td>{{ \Carbon\Carbon::parse($agendamento->data)->format('d/m/Y') }}</td>
                     <td>{{ $agendamento->horario }}</td>
                     <td>{{ ucfirst($agendamento->status) }}</td>
-                    <td>
-                        <a href="{{ route('agendamentos.show', $agendamento->id) }}" class="btn btn-sm btn-info">Ver</a>
-                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-</div>
-</x-app-layout>
+</body>
+</html>
