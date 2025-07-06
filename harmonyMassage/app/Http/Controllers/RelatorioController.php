@@ -9,10 +9,18 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Agendamento;
 class RelatorioController extends Controller
 {
-    public function index()
+     public function index()
     {
-        $relatorios = Relatorio::with('massagista')->get();
-        return view('relatorios.index', compact('relatorios'));
+        return view('relatorios.index');
+    }
+
+    public function emitir(Request $request)
+    {
+        $agendamentos = Agendamento::with(['cliente', 'massagista'])->get();
+
+        $pdf = PDF::loadView('relatorios.resultado', compact('agendamentos'));
+
+        return $pdf->download('relatorio-agendamentos.pdf');
     }
 
     public function create()
@@ -64,18 +72,6 @@ class RelatorioController extends Controller
     {
         $relatorio->delete();
         return redirect()->route('relatorios.index')->with('success', 'Relatório removido com sucesso!');
-    }
-
-    public function gerarPDF(Request $request)
-    {
-    $agendamentos = Agendamento::with(['cliente', 'massagista'])
-        ->when($request->data_inicial, fn($q) => $q->whereDate('data', '>=', $request->data_inicial))
-        ->when($request->data_final, fn($q) => $q->whereDate('data', '<=', $request->data_final))
-        ->get();
-
-    $pdf = Pdf::loadView('gerente.relatorios.pdf', compact('agendamentos'));
-
-    return $pdf->download('relatorio-agendamentos.pdf');
     }
 
 }

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Harmony Massage</title>
 
-    <!-- Fonte suave e moderna -->
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -38,7 +37,6 @@
     <div
         class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
         <main class="w-full max-w-3xl text-center">
-            {{-- Conteúdo principal entra aqui --}}
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis qui explicabo perspiciatis atque maiores
             autem tempora aliquam dolores. Quis aliquid, consequuntur ut ea aspernatur iure fuga omnis unde itaque
             officia!

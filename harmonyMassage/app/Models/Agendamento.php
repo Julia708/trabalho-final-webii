@@ -24,4 +24,9 @@ class Agendamento extends Model
     {
         return $this->hasOne(Pagamento::class);
     }
+
+    public function avaliacao()
+    {
+        return $this->hasOne(Avaliacao::class);
+    }
 }

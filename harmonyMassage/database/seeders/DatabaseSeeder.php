@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AgendamentoSeeder::class,
             PagamentoSeeder::class,
-            AvaliacaoSeeder::class,
             RelatorioSeeder::class,
             ComissaoSeeder::class,
             PluginSeeder::class,

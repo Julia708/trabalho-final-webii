@@ -3,7 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\AgendamentoController;
+use App\Http\Controllers\AvaliacaoController;
 use Illuminate\Support\Facades\Route;
+
+require __DIR__.'/auth.php';
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,9 +23,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
 
 Route::resource('agendamentos', AgendamentoController::class);
 Route::resource('relatorios', RelatorioController::class);
 
-Route::get('/gerar-pdf', [RelatorioController::class, 'gerarPDF'])->name('relatorio.pdf');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/relatorios', [RelatorioController::class, 'index'])->name('relatorios.index');
+    Route::post('/relatorios/emitir', [RelatorioController::class, 'emitir'])->name('relatorios.emitir');
+});
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/avaliacoes', [AvaliacaoController::class, 'index'])->name('avaliacoes.index');
+    Route::get('/avaliacoes/create/{agendamento}', [AvaliacaoController::class, 'create'])->name('avaliacoes.create');
+    Route::post('/avaliacoes', [AvaliacaoController::class, 'store'])->name('avaliacoes.store');
+});

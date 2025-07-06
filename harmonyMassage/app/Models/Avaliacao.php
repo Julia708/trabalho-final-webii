@@ -8,16 +8,11 @@ class Avaliacao extends Model
 {
     protected $table = 'avaliacoes';
 
-    protected $fillable = [ 'cliente_id', 'massagista_id', 'comentario', 'nota', 'data' ];
+    protected $fillable = [ 'agendamento_id', 'comentario', 'nota' ];
 
-    public function cliente()
+    public function agendamento()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function massagista()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Agendamento::class);
     }
     
 }

@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('avaliacoes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cliente_id')->constrained('users');
-            $table->foreignId('massagista_id')->constrained('users');
-            $table->string('comentario');
+            $table->foreignId('agendamento_id')->constrained('agendamentos');
             $table->tinyInteger('nota');
-            $table->date('data');
+            $table->string('comentario');
             $table->softDeletes();
             $table->timestamps();
         });

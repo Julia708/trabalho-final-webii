@@ -1,5 +1,5 @@
 <x-app-layout>
-    
+<div class="container">
     <h2>Meus Agendamentos</h2>
 
     <a href="{{ route('agendamentos.create') }}" class="btn btn-primary mb-3">Novo Agendamento</a>
