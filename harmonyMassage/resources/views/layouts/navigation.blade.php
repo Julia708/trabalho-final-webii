@@ -23,6 +23,12 @@
                         {{ __('Avaliações') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('relatorios.index')" :active="request()->routeIs('relatorios.index')">
+                        {{ __('Relatórios') }}
+                    </x-nav-link>
+                </div>
                 
             </div>
 
@@ -44,6 +50,10 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Ver Perfil') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('grafico.avaliacoes')">
+                            {{ __('Gráficos') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->

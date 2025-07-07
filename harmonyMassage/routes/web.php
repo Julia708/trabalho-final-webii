@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\AvaliacaoController;
+use App\Http\Controllers\GraficoController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -38,3 +39,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/avaliacoes/create/{agendamento}', [AvaliacaoController::class, 'create'])->name('avaliacoes.create');
     Route::post('/avaliacoes', [AvaliacaoController::class, 'store'])->name('avaliacoes.store');
 });
+
+Route::get('/grafico/avaliacoes', [GraficoController::class, 'avaliacoes'])->name('grafico.avaliacoes');
