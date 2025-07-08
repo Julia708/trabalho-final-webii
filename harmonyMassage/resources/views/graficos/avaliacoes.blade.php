@@ -18,7 +18,7 @@
                 datasets: [{
                     label: 'Quantidade de avaliações',
                     data: @json($avaliacoes),
-                    backgroundColor: 'rgba(59, 130, 246, 0.7)', // azul Tailwind
+                    backgroundColor: 'rgba(59, 130, 246, 0.7)',
                     borderColor: 'rgba(59, 130, 246, 1)',
                     borderWidth: 1,
                 }]

@@ -41,3 +41,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/grafico/avaliacoes', [GraficoController::class, 'avaliacoes'])->name('grafico.avaliacoes');
+
+Route::get('/massagista/agenda', [AgendamentoController::class, 'agendaMassagista'])
+    ->middleware(['auth'])
+    ->name('massagista.agenda');

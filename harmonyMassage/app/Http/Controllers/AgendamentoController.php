@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Agendamento;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -70,5 +71,17 @@ class AgendamentoController extends Controller
         $agendamento->delete();
 
         return redirect()->route('agendamentos.index')->with('success', 'Agendamento removido com sucesso!');
+    }
+
+    public function agendaMassagista()
+    {
+    $user = Auth::user();
+
+    $agendamentos = Agendamento::where('massagista_id', $user->id)
+        ->with('cliente')
+        ->orderBy('data')
+        ->get();
+
+    return view('massagista.agenda', compact('agendamentos'));
     }
 }

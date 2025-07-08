@@ -4,6 +4,5 @@
     <div class="max-w-6xl mx-auto mt-8">
         <h2 class="text-xl font-semibold mb-4">Gerenciamento de Usuários</h2>
 
-        {{-- Tabela com clientes e massagistas --}}
     </div>
 @endsection
