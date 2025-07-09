@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\AvaliacaoController;
+use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\GraficoController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,3 +46,11 @@ Route::get('/grafico/avaliacoes', [GraficoController::class, 'avaliacoes'])->nam
 Route::get('/massagista/agenda', [AgendamentoController::class, 'agendaMassagista'])
     ->middleware(['auth'])
     ->name('massagista.agenda');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pagamentos', [PagamentoController::class, 'index'])->name('pagamentos.index');
+    Route::get('/pagamentos/create/{agendamento}', [PagamentoController::class, 'create'])->name('pagamentos.create');
+    Route::post('/pagamentos', [PagamentoController::class, 'store'])->name('pagamentos.store');
+});

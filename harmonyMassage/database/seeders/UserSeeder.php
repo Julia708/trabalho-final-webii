@@ -37,5 +37,21 @@ class UserSeeder extends Seeder
             'telefone' => '(11)77777-7777',
             'tipo' => 'gerente',
         ]);
+
+        User::create([
+            'name' => 'Clara Cliente',
+            'email' => 'cliente2@exemplo.com',
+            'password' => Hash::make('senha123'),
+            'telefone' => '(11)19999-9999',
+            'tipo' => 'cliente',
+        ]);
+
+        User::create([
+            'name' => 'Rosa Massagista',
+            'email' => 'massagista2@exemplo.com',
+            'password' => Hash::make('senha123'),
+            'telefone' => '(11)22888-8888',
+            'tipo' => 'massagista',
+        ]);
     }
 }

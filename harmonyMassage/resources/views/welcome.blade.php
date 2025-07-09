@@ -34,13 +34,17 @@
             @endauth
         </nav>
     @endif
-    <div
-        class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-        <main class="w-full max-w-3xl text-center">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis qui explicabo perspiciatis atque maiores
-            autem tempora aliquam dolores. Quis aliquid, consequuntur ut ea aspernatur iure fuga omnis unde itaque
-            officia!
+    <div class="flex items-center justify-center w-full min-h-screen bg-gradient-to-br to-white">
+        <main
+            class="w-full max-w-3xl px-6 py-12 bg-white rounded-lg shadow-lg text-center transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
+            <h1 class="text-3xl font-bold text-purple-500 mb-6">Bem-vinda à Harmony Massage</h1>
+            <p class="text-gray-700 text-lg">
+                Aqui, seu bem-estar é a nossa prioridade. Agende sessões de massagem com profissionais qualificados e
+                viva uma experiência única de relaxamento, conforto e harmonia. Cuidar de você nunca foi tão fácil.
+            </p>
         </main>
+    </div>
+
     </div>
 
 </body>

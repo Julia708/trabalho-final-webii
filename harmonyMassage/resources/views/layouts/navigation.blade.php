@@ -7,6 +7,12 @@
                 <!-- Navigation Links -->
                 @if (Auth::user()->tipo === 'gerente')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('relatorios.index')" :active="request()->routeIs('relatorios.index')">
                             {{ __('Relatórios') }}
                         </x-nav-link>
@@ -33,8 +39,20 @@
 
                 @elseif (Auth::user()->tipo === 'cliente')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('agendamentos.index')" :active="request()->routeIs('agendamentos.index')">
                             {{ __('Agendamentos') }}
+                        </x-nav-link>
+                    </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('pagamentos.index')" :active="request()->routeIs('pagamentos.index')">
+                            {{ __('Pagamentos') }}
                         </x-nav-link>
                     </div>
 
